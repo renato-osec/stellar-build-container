@@ -9,25 +9,14 @@ services:
     stdin_open: true
     tty: true
     volumes:
-      # Mount the stellar-core source code - MAIN VOLUME FOR EDITING
       - ./stellar-core:/root/stellar-core
-      # Mount local directory for additional workspace
       - ./workspace:/root/workspace
-      # Mount stellar-core config if you have one
-      - ./stellar-core-config:/root/stellar-config:ro
-    networks:
-      - stellar-net
-    # Uncomment if you need to expose ports
-    # ports:
-    #   - "11625:11625"  # Peer port
-    #   - "11626:11626"  # HTTP port
+    ports:
+      - "11625:11625"
+      - "11626:11626"
     environment:
       - CC=clang-17
       - CXX=clang++-17
       - CXXFLAGS=-stdlib=libc++ -std=c++17
       - LDFLAGS=-stdlib=libc++
     command: /bin/bash
-
-networks:
-  stellar-net:
-    driver: bridge
